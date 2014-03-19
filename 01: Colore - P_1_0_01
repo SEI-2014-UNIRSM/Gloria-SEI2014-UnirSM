@@ -1,0 +1,55 @@
+import processing.pdf.*;
+import java.util.Calendar;
+
+boolean savePDF = false;
+
+
+void setup() {
+  size(720, 720);
+  noCursor();
+}
+
+
+void draw() {
+  // this line will start pdf export, if the variable savePDF was set to true 
+  if (savePDF) beginRecord(PDF, timestamp()+".pdf");
+
+  colorMode(RGB); 
+  background(mouseY/2);
+
+  
+    if (key=='r') {
+    fill(255,0,0); //rosso
+  }
+  
+  else if (key=='g') {
+    fill(255,249,131); //giallo
+  }   
+    else if (key=='b') {
+    fill(44,91,216); //blu
+    }
+  triangle(230, 500, 360, 250, 490, 500);
+  strokeJoin(ROUND);
+  strokeWeight(4);
+  
+
+  // end of pdf recording
+  if (savePDF) {
+    savePDF = false;
+    endRecord();
+  }
+}
+
+
+void keyPressed() {
+  if (key=='s' || key=='S') saveFrame(timestamp()+"_##.png");
+  if (key=='p' || key=='P') savePDF = true;
+}
+
+
+String timestamp() {
+  Calendar now = Calendar.getInstance();
+  return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", now);
+}
+
+
