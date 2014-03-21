@@ -1,0 +1,44 @@
+// definisce la classe chiamata "Creatura"
+class Creatura {
+  // le proprietà sono le "variabili" che ha ciascuna istanza
+  float x;
+  float y;
+  float diametro;
+  float velocita = 2.5;
+  
+  // il costruttore è la funzione che mi crea l'istanza
+  Creatura(float nuovoX, float nuovoY, int nuovoDiametro) {
+  x = nuovoX;
+  y = nuovoY;
+  diametro = nuovoDiametro;
+  
+  }
+  
+  // metodo che fa disegnare la creatura
+  void disegna() {
+    ellipse(x,y,diametro,diametro);
+  
+}
+
+//metodo che fa spostare la creatura a caso
+void spostaACaso() {
+    x += random(-velocita,velocita);
+    y += random(-velocita,velocita);
+ }
+}
+ //definisce una variabile che contiene una creatura
+ Creatura mario;
+ 
+ void setup(){
+    size(400,400);
+    background(0);
+ //creo una creatura invocando il costruttore
+ mario = new Creatura(100,100,20);
+ }
+ 
+ void draw() {
+   //sposta la creatura
+   mario.spostaACaso();
+   // disegna la creatura
+   mario.disegna();
+ }
