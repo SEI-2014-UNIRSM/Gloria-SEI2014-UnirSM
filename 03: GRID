@@ -1,0 +1,15 @@
+float variazione = 5;
+
+void setup() {
+  size (640,480);
+}
+
+void draw() {
+  background(200); //sfondo nero
+  float variazione = map(mouseX, 0, width, 0, 5);
+  for (int x = 20; x<width; x+=20) {
+  float variazioneSopra = random(-variazione, variazione);
+  float variazioneSotto = random(-variazione, variazione);
+  line (x+variazioneSopra, 20, x+variazioneSotto, 100);
+  }
+}
