@@ -1,0 +1,26 @@
+int lunghezza = 50;
+  float x[] = new float[lunghezza];
+  float y[] = new float[lunghezza];
+  
+  void setup() {
+    size(600,400);
+    noStroke();
+  }
+  
+  void draw() {
+    background(0);
+    // aggiorno l'array dal fondo alla testa
+    for(int i=(lunghezza-1); i>0; i--) {
+      x[i] = x[i-1];
+      y[i] = y[i-1];
+    }
+    x[0] = mouseX;
+    y[0] = mouseY;
+    
+    
+    //disegna la coda
+    for(int i=0; i<lunghezza; i++) {
+      fill((lunghezza-i)*256/lunghezza);
+      ellipse(x[i], y[i], 40, 40);
+    }
+  }
