@@ -1,0 +1,42 @@
+boolean isRecording = false; //variabile di tipo vero/falso: sta registrando
+boolean isDeleting = false; //variabile di tipo vero/falso: sta cancellando
+PShape s;
+float diam; // width of ellipse and weight of line
+float dripRan = random(1); //random size of drips
+float dripWidth = random(1); //drip width
+
+void setup() { //il setup rimane fisso, non cambia 
+  size(1280, 720); //misure finestra
+  background(255); //colore sfondo: bianco
+  // il file "formica.svg" si deve trovare nel data folder
+  // del corrente sketch per essere caricato
+  s = loadShape("formica.svg");
+}
+
+void draw() { //il draw si ridisegna continuamente
+{
+ fill(#9E0E0E); // colore linea: rosso
+ dripRan = random(10, 100);
+ dripWidth = random(.1, 3);
+}
+//draw the dot at our cursor
+  noStroke(); // no stroke on ellipses
+  ellipse(mouseX, mouseY, diam, diam); // draw a dot at the mouse position with the diameter calculated above
+   
+  // draw a line to smooth spaces between dots
+  stroke(#9E0E0E); // kill the stroke
+  strokeWeight(diam); // make the line the same width as the dot
+  line(mouseX, mouseY, pmouseX, pmouseY); // connect the dots with a line
+  
+  //Draw the drips
+  strokeWeight(.5+dripWidth); //make the weight for the drips
+  line(mouseX, mouseY, mouseX, mouseY+dripRan); // draw a line from the current dot straight down, the line is set at 50 in this case
+ 
+
+ if(mousePressed){
+   shapeMode(CENTER); 
+  shape(s, mouseX,mouseY,70,40);
+  frameRate(20);
+}
+}
+ 
