@@ -1,0 +1,123 @@
+Formica[] insetto= new Formica[100]; //array "Formica[]" contenente "new object" (insetto) 
+                                      //contenente n° insetto che vanno da 0 a 1000 (deve avere il nome dell'array)
+int corrente = 0; //variabile di n° interi da cui parte (corrente) il disegno: parte dal "new object" 0
+boolean isRecording = false; //variabile di tipo vero/falso: sta registrando
+boolean isDeleting = false; //variabile di tipo vero/falso: sta cancellando
+PShape s;
+float diam; // width of ellipse and weight of line
+float dripRan = random(1); //random size of drips
+float dripWidth = random(1); //drip width
+
+void setup() { //il setup rimane fisso, non cambia 
+  size(1280, 720); //misure finestra
+  background(255); //colore sfondo: bianco
+  stroke(255); //colore linea: nero
+  fill(0); //no riempimento
+  smooth(); //smussatura
+  // il file "formica.svg" si deve trovare nel data folder
+  // del corrente sketch per essere caricato
+  s = loadShape("formica.svg");
+}
+
+
+void draw() {
+ {
+   stroke(255);
+ fill(255); // colore linea: rosso
+ dripRan = random(10, 60);
+ dripWidth = random(.3, 2);
+}
+ //il draw si ridisegna continuamente
+
+
+  if (isDeleting) { //se cancello premendo "C"
+    stroke(255); //mi si attiva un pennello di colore nero (come lo sfondo)
+    ellipse(mouseX, mouseY, 30, 30); //dimensioni pennello 
+    stroke(255);
+  }
+
+  for (int i=0; i<insetto.length; i++) {
+    if (insetto[i] != null) {
+      insetto[i].display();
+      insetto[i].update();
+    }
+  }
+  
+  if (mousePressed) { // disegna se clicco con il mouse
+  
+  //draw the dot at our cursor
+  noStroke(); // no stroke on ellipses
+  ellipse(mouseX, mouseY, diam, diam); // draw a dot at the mouse position with the diameter calculated above
+   
+  // draw a line to smooth spaces between dots
+  stroke(#9E0E0E); // kill the stroke
+  strokeWeight(diam); // make the line the same width as the dot
+  line(mouseX, mouseY, pmouseX, pmouseY); // connect the dots with a line
+  
+  //Draw the drips
+  strokeWeight(.5+dripWidth); //make the weight for the drips
+  line(mouseX, mouseY, mouseX, mouseY+dripRan); // draw a line from the current dot straight down, the line is set at 50 in this case
+  frameRate(30);
+    stroke(255); // disegna una linea bianca
+    fill(0); //senza riempimento
+    PVector ora = new PVector(mouseX, mouseY);
+    PVector prima = new PVector(pmouseX, pmouseY);
+    float dist = ora.dist(prima);
+    if (dist>5) {
+      //line(pmouseX, pmouseY, mouseX, mouseY);
+      if (corrente<insetto.length) {
+        insetto[corrente] = new Formica(mouseX, mouseY);
+        corrente++;
+      } 
+      else {
+        corrente = 0;
+      }
+    }
+  }
+// save frame for animation
+   println(frameCount);
+   saveFrame("Animation01/anim-######.png");
+}
+
+void keyPressed() {
+  if (key == 's' || key == 'S') {
+    isRecording = !isRecording;
+    background(0);
+  } 
+  if (key == 'd' || key == 'D') {
+    background(0);
+    insetto= new Formica[1000];
+  }
+  if (key == 'C' || key == 'c') {
+    isDeleting = !isDeleting;
+  }
+}
+
+
+
+class Formica {
+  float x, y;
+   boolean exist;
+
+  Formica(float xtemp, float ytemp) {
+    x = xtemp;
+    y = ytemp;
+    exist = true;
+  } 
+
+  void display() {
+    if (exist) {
+      shape(s, x-10, y, 40, 20);
+    }
+  }
+
+  void update() {
+    x+=random(-1, 1);
+    y+=random(-1, 1);
+    if (isDeleting && mouseX-x<5) {
+      exist = false;
+    }
+  }
+ 
+ 
+}
