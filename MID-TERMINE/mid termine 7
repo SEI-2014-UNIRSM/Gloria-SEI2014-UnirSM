@@ -1,0 +1,23 @@
+PFont my_font;
+PImage photo;
+void setup()
+{
+  size(1280,720);
+  background(255);
+  smooth();
+  textAlign(CENTER);
+  textSize(30);
+  my_font = loadFont("TrajanPro-Bold-100.vlw");
+  noLoop();
+  photo = loadImage("sfondo1.jpg");
+  
+}
+
+void draw()
+{
+  image(photo,0,0);
+  fill(255,255,255);
+  text("PETER KRAUSE",1000,height/2);
+  
+  
+  }
